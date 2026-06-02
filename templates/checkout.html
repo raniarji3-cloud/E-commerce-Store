@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1 class="page-title">
+    Secure Checkout
+</h1>
+
+<div class="checkout-card">
+
+    {% if error %}
+        <p class="error-text">
+            {{ error }}
+        </p>
+    {% endif %}
+
+    <form method="POST">
+
+        {% csrf_token %}
+
+        <input
+            type="text"
+            name="name"
+            placeholder="Full Name"
+            class="checkout-input"
+            required
+        >
+
+        <input
+            type="text"
+            name="phone"
+            placeholder="Phone Number"
+            class="checkout-input"
+            required
+        >
+
+        <textarea
+            name="address"
+            placeholder="Delivery Address"
+            class="checkout-input"
+            rows="4"
+            required
+        ></textarea>
+
+        <div class="payment-box">
+
+            <h3>Select Payment Method</h3>
+
+            <label>
+                <input
+                    type="radio"
+                    name="payment"
+                    value="Cash On Delivery"
+                    checked
+                >
+                Cash On Delivery
+            </label>
+
+            <label>
+                <input
+                    type="radio"
+                    name="payment"
+                    value="PhonePe"
+                >
+                PhonePe
+            </label>
+
+            <label>
+                <input
+                    type="radio"
+                    name="payment"
+                    value="Google Pay"
+                >
+                Google Pay
+            </label>
+
+        </div>
+
+        <button
+            type="submit"
+            class="checkout-btn"
+        >
+            Place Order
+        </button>
+
+    </form>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1 class="page-title">
+    Shopping Cart
+</h1>
+
+{% if messages %}
+    {% for message in messages %}
+        <p class="stock-warning">
+            {{ message }}
+        </p>
+    {% endfor %}
+{% endif %}
+
+{% for item in items %}
+
+<div class="cart-item">
+
+    {% if item.product.image %}
+        <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}">
+    {% endif %}
+
+    <div class="cart-details">
+        <h3>{{ item.product.name }}</h3>
+
+        <p>
+            ₹{{ item.product.price }}
+        </p>
+
+        <div class="qty-controls">
+
+            <a href="{% url 'decrease_quantity' item.id %}">
+                <button class="qty-btn">−</button>
+            </a>
+
+            <span>{{ item.quantity }}</span>
+
+            <a href="{% url 'increase_quantity' item.id %}">
+                <button class="qty-btn">+</button>
+            </a>
+
+        </div>
+
+        <a href="{% url 'remove_item' item.id %}">
+            <button class="remove-btn">
+                Remove
+            </button>
+        </a>
+    </div>
+
+</div>
+
+{% endfor %}
+
+<div class="cart-summary">
+
+    <h2>Total: ₹{{ total }}</h2>
+
+    <a href="{% url 'checkout' %}">
+        <button class="checkout-btn">
+            Proceed To Checkout
+        </button>
+    </a>
+
+</div>
+
+{% endblock %}

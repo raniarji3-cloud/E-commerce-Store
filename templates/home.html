@@ -1,0 +1,148 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<section class="hero">
+
+    <div class="hero-content">
+
+        <h1>SHOPAZ</h1>
+
+        <h2>Everything You Need In One Place</h2>
+
+        <p>
+            Fashion, Electronics, Books,
+            Appliances and much more.
+        </p>
+
+        <a href="{% url 'products' %}">
+            <button class="glass-btn">
+                Shop Now
+            </button>
+        </a>
+
+    </div>
+
+</section>
+
+<section class="welcome">
+
+    <h1>Shop By Category</h1>
+
+    <p>
+        Discover Fashion, Electronics,
+        Books, Home Appliances and more.
+    </p>
+
+</section>
+
+<section class="home-section">
+
+<section class="category-wrapper">
+
+    <h2>Shop By Category</h2>
+
+    <div class="category-grid">
+
+        {% for category in categories %}
+        <a href="{% url 'category_products' category.id %}" class="glass-card category-tile">
+            <div class="category-icon">
+                {% if 'fashion' in category.name|lower or 'beauty' in category.name|lower %}👗
+                {% elif 'electronics' in category.name|lower or 'electronic' in category.name|lower %}📱
+                {% elif 'book' in category.name|lower or 'education' in category.name|lower %}📚
+                {% elif 'toy' in category.name|lower or 'kids' in category.name|lower %}🧸
+                {% elif 'footwear' in category.name|lower or 'shoe' in category.name|lower %}👟
+                {% elif 'appliance' in category.name|lower or 'home' in category.name|lower %}🏠
+                {% else %}🛍️
+                {% endif %}
+            </div>
+            <h3>{{ category.name }}</h3>
+            <p>Shop our collection</p>
+        </a>
+        {% endfor %}
+
+    </div>
+
+</section>
+
+<section class="features">
+
+    <h2>Why ShopAZ?</h2>
+
+    <div class="feature-grid">
+
+        <div class="glass-card">
+            Fast Delivery
+        </div>
+
+        <div class="glass-card">
+            Secure Payments
+        </div>
+
+        <div class="glass-card">
+            Premium Products
+        </div>
+
+        <div class="glass-card">
+            Easy Shopping
+        </div>
+
+    </div>
+
+</section>
+
+<section class="footer contact-footer">
+
+    <div class="contact-card contact-panel">
+
+        <div class="contact-info">
+            <span class="contact-eyebrow">Contact Me</span>
+
+            <h2>Get In Touch</h2>
+
+            <p>
+                Have a question about your order or want to shop something special?
+                Feel free to send us a message.
+            </p>
+
+            <div class="contact-line">
+                <span>@</span>
+                <a href="mailto:shopaz@gmail.com">shopaz@gmail.com</a>
+            </div>
+
+            <div class="contact-line">
+                <span>+</span>
+                <a href="tel:+919876543210">+91 98765 43210</a>
+            </div>
+
+            <div class="contact-line">
+                <span>#</span>
+                <span>India, Earth</span>
+            </div>
+        </div>
+
+        <form class="contact-form">
+            <div class="contact-form-row">
+                <input type="text" placeholder="Your Name">
+                <input type="email" placeholder="Your Email">
+            </div>
+
+            <input type="text" placeholder="Subject">
+
+            <textarea placeholder="Your Message"></textarea>
+
+            <button type="submit">Send Message</button>
+        </form>
+
+    </div>
+
+    <p class="footer-copy">
+        &copy; 2026 ShopAZ. All rights reserved.
+    </p>
+
+</section>
+
+</section>
+
+{% endblock %}

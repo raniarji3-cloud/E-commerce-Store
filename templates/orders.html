@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1 class="page-title">
+    My Orders
+</h1>
+
+{% for order in orders %}
+
+<div class="order-card">
+
+    {% with order.orderitem_set.first as first_item %}
+        {% if first_item and first_item.product.image %}
+            <img src="{{ first_item.product.image.url }}" alt="{{ first_item.product.name }}">
+        {% endif %}
+    {% endwith %}
+
+    <div class="order-details">
+        <h3>
+            Order #{{ order.id }}
+        </h3>
+
+        <p>
+            <strong>Name:</strong>
+            {{ order.customer_name }}
+        </p>
+
+        <p>
+            <strong>Total:</strong>
+            ₹{{ order.total_price }}
+        </p>
+
+        <p>
+            <strong>Payment:</strong>
+            {{ order.payment_method }}
+        </p>
+
+        <p>
+            <strong>Status:</strong>
+            {{ order.status }}
+        </p>
+    </div>
+
+</div>
+
+{% empty %}
+
+<div class="order-card">
+
+    <h3>No Orders Yet</h3>
+
+</div>
+
+{% endfor %}
+
+{% endblock %}

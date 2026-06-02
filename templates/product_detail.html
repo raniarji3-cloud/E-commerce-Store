@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="product-detail-container">
+
+    <div class="product-detail-card">
+
+        <div class="product-image-section">
+
+            {% if product.image %}
+                <img
+                    src="{{ product.image.url }}"
+                    class="detail-image"
+                >
+            {% endif %}
+
+        </div>
+
+        <div class="product-info-section">
+
+            <h1>{{ product.name }}</h1>
+
+            <p class="detail-description">
+                {{ product.description }}
+            </p>
+
+            <div class="stars">
+                ★★★★★
+            </div>
+
+            {% if product.stock > 0 %}
+                <span class="stock-badge in-stock">
+                    In Stock ({{ product.stock }})
+                </span>
+            {% else %}
+                <span class="stock-badge out-stock">
+                    Out Of Stock
+                </span>
+            {% endif %}
+
+            <p class="detail-price">
+                ₹{{ product.price }}
+            </p>
+
+            <a href="{% url 'add_to_cart' product.id %}">
+                <button class="checkout-btn">
+                    Add To Cart
+                </button>
+            </a>
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

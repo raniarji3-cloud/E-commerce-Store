@@ -1,0 +1,136 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1 class="page-title">
+    {% if subcategory_title and audience_title %}
+        {{ audience_title }} {{ subcategory_title }}
+    {% elif subcategory_title %}
+        {{ subcategory_title }}
+    {% elif category_title %}
+        {{ category_title }}
+    {% else %}
+        Our Collection
+    {% endif %}
+</h1>
+
+<section class="product-tools">
+
+    <form method="GET" action="{% url 'products' %}" class="product-search">
+        {% if selected_category %}
+            <input type="hidden" name="category" value="{{ selected_category }}">
+        {% endif %}
+
+        {% if selected_subcategory %}
+            <input type="hidden" name="subcategory" value="{{ selected_subcategory }}">
+        {% endif %}
+
+        {% if selected_audience %}
+            <input type="hidden" name="audience" value="{{ selected_audience }}">
+        {% endif %}
+
+        <input
+            type="search"
+            name="q"
+            value="{{ search_query }}"
+            placeholder="Search sarees, phones, books..."
+        >
+
+        <button type="submit">
+            Search
+        </button>
+    </form>
+
+    {% if selected_category == 'fashion' %}
+        <div class="subcategory-tabs">
+            <a
+                href="{% url 'products' %}?category=fashion"
+                class="{% if not selected_subcategory %}active{% endif %}"
+            >
+                All Fashion
+            </a>
+
+            {% for item in fashion_subcategories %}
+                <a
+                    href="{% url 'products' %}?category=fashion&subcategory={{ item.slug }}"
+                    class="{% if selected_subcategory == item.slug %}active{% endif %}"
+                >
+                    {{ item.title }}
+                </a>
+            {% endfor %}
+        </div>
+
+        {% if selected_subcategory %}
+            <div class="subcategory-tabs audience-tabs">
+                <a
+                    href="{% url 'products' %}?category=fashion&subcategory={{ selected_subcategory }}"
+                    class="{% if not selected_audience %}active{% endif %}"
+                >
+                    All
+                </a>
+
+                {% for item in fashion_audiences %}
+                    <a
+                        href="{% url 'products' %}?category=fashion&subcategory={{ selected_subcategory }}&audience={{ item.slug }}"
+                        class="{% if selected_audience == item.slug %}active{% endif %}"
+                    >
+                        {{ item.title }}
+                    </a>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endif %}
+
+</section>
+
+<div class="products-grid">
+
+    {% for product in products %}
+
+    <div class="product-card">
+
+        {% if product.image %}
+            <img src="{{ product.image.url }}" class="product-image">
+        {% endif %}
+
+        <h3>{{ product.name }}</h3>
+
+        <p class="price">
+            ₹{{ product.price }}
+        </p>
+
+        {% if product.stock > 0 %}
+            <span class="stock-badge in-stock">
+                In Stock ({{ product.stock }})
+            </span>
+        {% else %}
+            <span class="stock-badge out-stock">
+                Out Of Stock
+            </span>
+        {% endif %}
+
+        <a href="{% url 'product_detail' product.id %}">
+            <button class="product-btn">
+                View Product
+            </button>
+        </a>
+
+    </div>
+
+    {% empty %}
+
+    <div class="empty-products">
+        <h2>No products found</h2>
+        <p>This category is ready for your next product upload.</p>
+        <a href="{% url 'products' %}">
+            <button class="product-btn">
+                View All Products
+            </button>
+        </a>
+    </div>
+
+    {% endfor %}
+
+</div>
+
+{% endblock %}

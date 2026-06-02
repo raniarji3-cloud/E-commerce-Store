@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1 class="page-title">{{ category.name }}</h1>
+
+<div class="products-grid">
+
+    {% for product in products %}
+
+    <div class="product-card">
+
+        {% if product.image %}
+            <img src="{{ product.image.url }}" class="product-image" alt="{{ product.name }}">
+        {% endif %}
+
+        <h3>{{ product.name }}</h3>
+
+        <p class="price">
+            ₹{{ product.price }}
+        </p>
+
+        {% if product.stock > 0 %}
+            <span class="stock-badge in-stock">In Stock</span>
+        {% else %}
+            <span class="stock-badge out-stock">Out of Stock</span>
+        {% endif %}
+
+        <a href="{% url 'product_detail' product.id %}">
+            <button class="product-btn">
+                View Details
+            </button>
+        </a>
+
+    </div>
+
+    {% empty %}
+
+    <p style="grid-column: 1/-1; text-align: center; color: #ccc; padding: 40px;">
+        No products found in this category.
+    </p>
+
+    {% endfor %}
+
+</div>
+
+{% endblock %}
