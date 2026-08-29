@@ -2404,3 +2404,9 @@ white-space: nowrap;
 ```
 
 }
+/* Product names */
+.product-card h2,
+.product-card h3,
+.product-card .product-name {
+    color: #ffffff !important;
+}
