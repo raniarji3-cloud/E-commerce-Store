@@ -31,7 +31,12 @@
             Products
         </a>
 
+        <a href="{% url 'designers' %}">
+            ✨ Designers
+        </a>
+
         {% if user.is_authenticated %}
+
 
             <a href="{% url 'cart' %}">
                 Cart
@@ -39,6 +44,10 @@
 
             <a href="{% url 'orders' %}">
                 Orders
+            </a>
+
+            <a href="{% url 'design_requests' %}">
+                Design Requests
             </a>
 
             <a href="{% url 'logout' %}">

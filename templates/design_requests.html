@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="design-requests-page">
+
+```
+<div class="design-requests-container">
+
+    <h1>My Design Requests</h1>
+
+    <p class="request-intro">
+        Track the custom designs you requested from our designers.
+    </p>
+
+    {% if requests %}
+
+        {% for request in requests %}
+
+            <div class="request-card">
+
+                {% if request.designer.image %}
+                    <img
+                        src="{{ request.designer.image.url }}"
+                        alt="{{ request.designer.name }}"
+                        class="request-designer-avatar"
+                    >
+                {% endif %}
+
+                <div class="request-info">
+
+                    <h2>{{ request.title }}</h2>
+
+                    <p>
+                        <strong>Designer:</strong>
+                        <span>{{ request.designer.name }}</span>
+                    </p>
+
+                    <p>
+                        <strong>Budget:</strong>
+                        <span>₹{{ request.budget|default:"Not specified" }}</span>
+                    </p>
+
+                    <p>
+                        <strong>Submitted:</strong>
+                        <span>{{ request.created_at|date:"d M Y" }}</span>
+                    </p>
+
+                </div>
+
+                <div class="request-status">
+                    {{ request.status }}
+                </div>
+
+            </div>
+
+        {% endfor %}
+
+    {% else %}
+
+        <div class="empty-requests">
+
+            <h2>No design requests yet</h2>
+
+            <p>
+                Find a designer and create something made just for you.
+            </p>
+
+            <a href="{% url 'designers' %}">
+                Find a Designer
+            </a>
+
+        </div>
+
+    {% endif %}
+
+</div>
+```
+
+</div>
+
+{% endblock %}

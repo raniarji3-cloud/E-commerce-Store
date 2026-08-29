@@ -14,8 +14,7 @@
                 Login to continue shopping with ShopAZ
             </p>
     
-            <form method="POST">
-
+            <form method="POST" action="{% url 'login' %}">
                 {% csrf_token %}
 
                 <input
@@ -37,7 +36,6 @@
                 <button type="submit" class="login-btn">
                     Login
                 </button>
-
             </form>
             <p class="continue-text">
                 Continue with

@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<section class="designers-page">
+
+    <div class="designers-header">
+
+        <h1>✨ Find Your Designer</h1>
+
+        <p>
+            Can't find the perfect style?
+            Connect with a designer and create something made just for you.
+        </p>
+
+    </div>
+
+
+    <div class="designer-grid">
+
+        {% for designer in designers %}
+
+        <div class="designer-card">
+
+            {% if designer.image %}
+                <img
+                    src="{{ designer.image.url }}"
+                    alt="{{ designer.name }}"
+                >
+            {% else %}
+                <div class="designer-placeholder">
+                    ✨
+                </div>
+            {% endif %}
+
+            <h2>{{ designer.name }}</h2>
+
+            <h3>{{ designer.specialization }}</h3>
+
+            <p>
+                {{ designer.description }}
+            </p>
+
+            <p>
+                📍 {{ designer.location }}
+            </p>
+
+            <p>
+                🧵 {{ designer.experience }} years experience
+            </p>
+
+            <p>
+                💰 {{ designer.price_range }}
+            </p>
+
+            <a href="{% url 'create_design_request' designer.id %}" class="designer-btn">
+                Customize With This Designer
+            </a>
+
+        </div>
+
+        {% empty %}
+
+        <p>No designers available yet.</p>
+
+        {% endfor %}
+
+    </div>
+
+</section>
+
+{% endblock %}

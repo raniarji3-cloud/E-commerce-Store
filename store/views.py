@@ -1,12 +1,16 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Product, Cart, CartItem, Order, OrderItem, Category
+from .models import Product, Cart, CartItem, Order, OrderItem, Category, Designer,DesignRequest
 from django.db.models import Q
 from django.contrib.auth import login, logout, authenticate
+from django.contrib.auth.models import User
 from .forms import SignUpForm
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 
 def home(request):
+
+    if not request.user.is_authenticated:
+        return redirect('login')
 
     featured_products = Product.objects.all()[:4]
     categories = Category.objects.all()
@@ -203,11 +207,19 @@ def signup_view(request):
 
 
 def login_view(request):
+    if request.method == "POST":
+        username_or_email = request.POST.get("username")
+        password = request.POST.get("password")
 
-    if request.method == 'POST':
+        # Allow login using username OR email
+        username = username_or_email
 
-        username = request.POST['username']
-        password = request.POST['password']
+        if "@" in username_or_email:
+            try:
+                user = User.objects.get(email=username_or_email)
+                username = user.username
+            except User.DoesNotExist:
+                username = username_or_email
 
         user = authenticate(
             request,
@@ -215,13 +227,13 @@ def login_view(request):
             password=password
         )
 
-        if user:
-
+        if user is not None:
             login(request, user)
+            return redirect("home")
 
-            return redirect('home')
+        messages.error(request, "Invalid username/email or password.")
 
-    return render(request, 'login.html')
+    return render(request, "login.html")
 
 
 def logout_view(request):
@@ -470,3 +482,48 @@ def remove_item(request, item_id):
     item.delete()
 
     return redirect('cart')
+ 
+def designers(request):
+    designers = Designer.objects.all()
+
+    return render(
+        request,
+        'designers.html',
+        {'designers': designers}
+    )
+
+@login_required
+def create_design_request(request, designer_id):
+
+    designer = get_object_or_404(Designer, id=designer_id)
+
+    if request.method == 'POST':
+
+        DesignRequest.objects.create(
+            user=request.user,
+            designer=designer,
+            title=request.POST.get('title'),
+            description=request.POST.get('description'),
+            reference_image=request.FILES.get('reference_image'),
+            budget=request.POST.get('budget') or None,
+        )
+
+        return redirect('designers')
+
+    return render(
+        request,
+        'create_design_request.html',
+        {'designer': designer}
+    )
+
+@login_required
+def design_requests(request):
+    requests = DesignRequest.objects.filter(
+        user=request.user
+    ).order_by('-created_at')
+
+    return render(
+        request,
+        'design_requests.html',
+        {'requests': requests}
+    )

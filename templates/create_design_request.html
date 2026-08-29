@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="design-request-page">
+
+    <div class="design-request-card">
+
+        <a href="{% url 'designers' %}" class="back-link">
+            ← Back to Designers
+        </a>
+
+        <div class="designer-header">
+
+            {% if designer.image %}
+                <img src="{{ designer.image.url }}" class="designer-avatar">
+            {% endif %}
+
+            <div>
+                <h1>Customize With {{ designer.name }}</h1>
+
+                <p class="designer-specialization">
+                    {{ designer.specialization }}
+                </p>
+
+                <p>
+                    📍 {{ designer.location }}
+                    &nbsp; • &nbsp;
+                    🧵 {{ designer.experience }} years experience
+                </p>
+
+                <p>
+                    💰 {{ designer.price_range }}
+                </p>
+            </div>
+
+        </div>
+
+        <hr>
+
+        <h2>Tell us what you need</h2>
+
+        <p class="request-subtitle">
+            Share your idea and let the designer create something
+            specially for you.
+        </p>
+
+        <form method="POST" enctype="multipart/form-data">
+
+            {% csrf_token %}
+
+            <label>Design Title</label>
+            <input
+                type="text"
+                name="title"
+                placeholder="Example: Custom Silk Saree"
+                required
+            >
+
+            <label>Describe Your Design</label>
+            <textarea
+                name="description"
+                rows="6"
+                placeholder="Describe the style, colour, material, pattern, size, etc."
+                required
+            ></textarea>
+
+            <label>Reference Image (Optional)</label>
+            <input
+                type="file"
+                name="reference_image"
+                accept="image/*"
+            >
+
+            <label>Your Budget (₹)</label>
+            <input
+                type="number"
+                name="budget"
+                placeholder="Example: 2500"
+                min="0"
+            >
+
+            <button type="submit" class="request-submit-btn">
+                ✨ Send Design Request
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}
