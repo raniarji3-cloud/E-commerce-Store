@@ -2410,3 +2410,9 @@ white-space: nowrap;
 .product-card .product-name {
     color: #ffffff !important;
 }
+/* Why ShopAZ feature cards */
+.features .feature-grid .glass-card {
+    color: #ffffff !important;
+    font-weight: 600;
+    font-size: 18px;
+}
